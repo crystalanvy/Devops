@@ -1,0 +1,26 @@
+#!groovy
+pipeline {
+  agent any
+  stages {
+    stage('Cloning our Git') {
+        steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/crystalanvy/Devops.git']]])
+            }
+    }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t crystalanvy/dev_docker_1:latest .'
+      }
+    }
+    stage('Docker Push') {
+      agent any
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+          sh 'docker push crystalanvy/dev_docker_1:latest'
+        }
+      }
+    }
+  }
+}
