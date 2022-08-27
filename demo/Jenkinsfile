@@ -10,7 +10,7 @@ pipeline {
     stage('Docker Build') {
       agent any
       steps {
-        sh 'echo "Hello World"'
+        bat 'set'
       }
     }
     stage('Docker Push') {
