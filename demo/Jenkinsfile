@@ -10,7 +10,7 @@ pipeline {
     stage('Docker Build') {
       agent any
       steps {
-        sh 'docker build -t crystalanvy/dev_docker_1:latest .'
+        sh 'echo "Hello World"'
       }
     }
     stage('Docker Push') {
