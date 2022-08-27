@@ -10,7 +10,10 @@ pipeline {
     stage('Docker Build') {
       agent any
       steps {
-        bat 'set'
+        sh '''
+        #!/bin/bash
+        sh "docker build -t crystalanvy/dev_docker_1:latest ."
+        '''
       }
     }
     stage('Docker Push') {
